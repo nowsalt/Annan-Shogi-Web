@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安南将棋</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app">
+        <header class="header">
+            <h1>安南将棋</h1>
+            <div class="status" id="status">先手の番</div>
+        </header>
+
+        <main class="game-area">
+            <!-- 後手の持ち駒 -->
+            <div class="hand-area white-hand">
+                <div class="hand-label">☖ 後手の持ち駒</div>
+                <div class="hand-pieces" id="white-hand"></div>
+            </div>
+
+            <!-- 盤面 -->
+            <div class="board-container">
+                <div class="file-labels top">
+                    <span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+                </div>
+                <div class="board-with-ranks">
+                    <div class="board" id="board"></div>
+                    <div class="rank-labels">
+                        <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>七</span><span>八</span><span>九</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 先手の持ち駒 -->
+            <div class="hand-area black-hand">
+                <div class="hand-label">☗ 先手の持ち駒</div>
+                <div class="hand-pieces" id="black-hand"></div>
+            </div>
+        </main>
+
+        <div class="controls">
+            <select id="ai-mode" class="btn" onchange="changeAiMode()">
+                <option value="none" selected>👥 プレイヤー対人</option>
+                <option value="white">💻 AI対局 (AI後手)</option>
+                <option value="black">💻 AI対局 (AI先手)</option>
+            </select>
+            <button class="btn" id="btn-undo" onclick="doUndo()">⏪ 待った</button>
+            <button class="btn btn-danger" id="btn-resign" onclick="doResign()">🏳️ 投了</button>
+            <button class="btn btn-new" id="btn-reset" onclick="doReset()">🔄 新規</button>
+        </div>
+
+        <div class="info-bar">
+            <span id="ply-count">0手目</span>
+            <span id="check-indicator" class="hidden">王手！</span>
+        </div>
+    </div>
+
+    <!-- 成り選択ダイアログ -->
+    <div class="modal-overlay hidden" id="promote-dialog">
+        <div class="modal">
+            <h2>成りますか？</h2>
+            <div class="modal-buttons">
+                <button class="btn btn-promote" onclick="confirmPromotion(true)">成る</button>
+                <button class="btn" onclick="confirmPromotion(false)">不成</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 結果表示ダイアログ -->
+    <div class="modal-overlay hidden" id="result-dialog">
+        <div class="modal">
+            <h2 id="result-text"></h2>
+            <div class="modal-buttons">
+                <button class="btn btn-new"
+                    onclick="doReset(); document.getElementById('result-dialog').classList.add('hidden')">新しく始める</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
