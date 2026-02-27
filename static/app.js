@@ -88,6 +88,7 @@ function render() {
     renderHand('black');
     renderHand('white');
     renderStatus();
+    renderLog();
 }
 
 // --- AI関連 ---
@@ -371,6 +372,51 @@ function checkResult() {
             resultMap[gameState.result] || gameState.result;
         document.getElementById('result-dialog').classList.remove('hidden');
     }
+}
+
+function renderLog() {
+    const logEl = document.getElementById('move-log');
+    if (!logEl || !gameState.log) return;
+
+    logEl.innerHTML = '';
+    gameState.log.forEach((moveStr, i) => {
+        const item = document.createElement('div');
+        item.className = 'log-item';
+
+        const num = document.createElement('span');
+        num.className = 'num';
+        num.textContent = i + 1;
+
+        const text = document.createElement('span');
+        text.className = 'text';
+        text.textContent = moveStr;
+
+        item.appendChild(num);
+        item.appendChild(text);
+        logEl.appendChild(item);
+    });
+
+    // 一番下までスクロール
+    logEl.scrollTop = logEl.scrollHeight;
+}
+
+function downloadKif() {
+    if (!gameState || !gameState.kif) {
+        alert("ダウンロードする棋譜データがありません。");
+        return;
+    }
+
+    const blob = new Blob([gameState.kif], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `annan_shogi_${new Date().getTime()}.kif`;
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 // --- 初期化 ---

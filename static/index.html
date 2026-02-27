@@ -16,32 +16,45 @@
             <div class="status" id="status">先手の番</div>
         </header>
 
-        <main class="game-area">
-            <!-- 後手の持ち駒 -->
-            <div class="hand-area white-hand">
-                <div class="hand-label">☖ 後手の持ち駒</div>
-                <div class="hand-pieces" id="white-hand"></div>
-            </div>
-
-            <!-- 盤面 -->
-            <div class="board-container">
-                <div class="file-labels top">
-                    <span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+        <div class="main-layout">
+            <main class="game-area">
+                <!-- 後手の持ち駒 -->
+                <div class="hand-area white-hand">
+                    <div class="hand-label">☖ 後手の持ち駒</div>
+                    <div class="hand-pieces" id="white-hand"></div>
                 </div>
-                <div class="board-with-ranks">
-                    <div class="board" id="board"></div>
-                    <div class="rank-labels">
-                        <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>七</span><span>八</span><span>九</span>
+
+                <!-- 盤面 -->
+                <div class="board-container">
+                    <div class="file-labels top">
+                        <span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+                    </div>
+                    <div class="board-with-ranks">
+                        <div class="board" id="board"></div>
+                        <div class="rank-labels">
+                            <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>七</span><span>八</span><span>九</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 先手の持ち駒 -->
-            <div class="hand-area black-hand">
-                <div class="hand-label">☗ 先手の持ち駒</div>
-                <div class="hand-pieces" id="black-hand"></div>
-            </div>
-        </main>
+                <!-- 先手の持ち駒 -->
+                <div class="hand-area black-hand">
+                    <div class="hand-label">☗ 先手の持ち駒</div>
+                    <div class="hand-pieces" id="black-hand"></div>
+                </div>
+            </main>
+
+            <!-- 棋譜・ログパネル -->
+            <aside class="side-panel">
+                <div class="side-header">
+                    <h2>棋譜ログ</h2>
+                    <button class="btn btn-kif" onclick="downloadKif()">⬇️ KIF保存</button>
+                </div>
+                <div class="log-container" id="move-log">
+                    <!-- ログがここに挿入される -->
+                </div>
+            </aside>
+        </div>
 
         <div class="controls">
             <select id="ai-mode" class="btn" onchange="changeAiMode()">

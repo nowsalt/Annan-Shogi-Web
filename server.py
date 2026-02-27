@@ -60,6 +60,56 @@ _PIECE_KANJI = {
 }
 
 
+_ZENKAKU_NUMS = ["", "１", "２", "３", "４", "５", "６", "７", "８", "９"]
+_KANJI_NUMS = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"]
+
+def _generate_kif_and_log() -> tuple[list[str], str]:
+    """履歴からKIF文字列とログ用配列を生成する."""
+    log_arr = []
+    kif_lines = [
+        "# KIF形式棋譜ファイル",
+        "手合割：平手",
+        "先手：プレイヤー",
+        "後手：プレイヤー(またはAI)",
+        "手数----指手---------消費時間--"
+    ]
+    
+    prev_dst = None
+    for i, m in enumerate(game._move_history):
+        state = game._state_history[i]
+        move_num = i + 1
+        turn_mark = "☗" if state.turn is Color.BLACK else "☖"
+        
+        if m.is_drop:
+            dst_f, dst_r = m.dst.file, m.dst.rank
+            pc_str = _PIECE_KANJI[m.drop.value]
+            
+            move_str_kif = f"{_ZENKAKU_NUMS[dst_f]}{_KANJI_NUMS[dst_r]}{pc_str}打"
+            move_str_log = f"{turn_mark}{_ZENKAKU_NUMS[dst_f]}{_KANJI_NUMS[dst_r]}{pc_str}打"
+            prev_dst = m.dst
+        else:
+            pc = state.board[m.src]
+            pc_str = _PIECE_KANJI[pc.piece_type.value]
+            promote_str = "成" if m.promote else ""
+            
+            # 同判定
+            if prev_dst and prev_dst == m.dst:
+                dst_str = "同　"
+            else:
+                dst_str = f"{_ZENKAKU_NUMS[m.dst.file]}{_KANJI_NUMS[m.dst.rank]}"
+                
+            move_str_kif = f"{dst_str}{pc_str}{promote_str}({m.src.file}{m.src.rank})"
+            
+            # ログ用は絶対座標で分かりやすく
+            move_str_log = f"{turn_mark}{_ZENKAKU_NUMS[m.dst.file]}{_KANJI_NUMS[m.dst.rank]}{pc_str}{promote_str}({m.src.file}{m.src.rank})"
+            prev_dst = m.dst
+            
+        log_arr.append(move_str_log)
+        kif_lines.append(f"{move_num:>4} {move_str_kif}")
+        
+    return log_arr, "\n".join(kif_lines)
+
+
 def _game_state_to_json() -> dict:
     """現在のゲーム状態をJSON用の辞書に変換する."""
     state = game.state
@@ -109,6 +159,9 @@ def _game_state_to_json() -> dict:
     black_hand = {pt.value: n for pt, n in game.stand(Color.BLACK).items()}
     white_hand = {pt.value: n for pt, n in game.stand(Color.WHITE).items()}
 
+    # ログとKIF
+    log_arr, kif_str = _generate_kif_and_log()
+
     return {
         "board": board_data,
         "annan_info": annan_info,
@@ -121,6 +174,8 @@ def _game_state_to_json() -> dict:
         "ply": game.ply(),
         "ai_enabled": ai_player is not None,
         "ai_color": ai_color,
+        "log": log_arr,
+        "kif": kif_str,
     }
 
 

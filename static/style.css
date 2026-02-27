@@ -62,6 +62,16 @@ body {
     color: var(--text-muted);
 }
 
+.main-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    max-width: 900px;
+}
+
 .game-area {
     display: flex;
     flex-direction: column;
@@ -266,6 +276,84 @@ body {
     /* 後手は元に戻す */
 }
 
+/* ===== ログパネル ===== */
+.side-panel {
+    width: 280px;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 580px;
+    /* 盤面の高さにおおよそ合わせる */
+}
+
+.side-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.side-header h2 {
+    font-size: 16px;
+    color: var(--text-muted);
+}
+
+.btn-kif {
+    padding: 4px 10px;
+    font-size: 12px;
+    background: rgba(33, 150, 243, 0.15);
+    border-color: rgba(33, 150, 243, 0.3);
+}
+
+.log-container {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-right: 4px;
+}
+
+/* スクロールバーのカスタマイズ */
+.log-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.log-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.log-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.log-item {
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    gap: 12px;
+}
+
+.log-item:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.log-item .num {
+    color: var(--text-muted);
+    font-size: 12px;
+    min-width: 24px;
+    text-align: right;
+}
+
 /* ===== ボタン ===== */
 .controls {
     display: flex;
@@ -381,6 +469,19 @@ body {
     .app {
         padding: 5px;
         gap: 8px;
+    }
+
+    .main-layout {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .side-panel {
+        width: 100%;
+        max-width: 400px;
+        height: 200px;
+        /* モバイルでは高さを抑える */
     }
 
     .header h1 {
