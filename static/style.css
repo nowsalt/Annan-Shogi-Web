@@ -1,5 +1,7 @@
 /* ===== リセット・基本設定 ===== */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -255,11 +257,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transform: rotate(0deg); /* カウントは回転しない */
+    transform: rotate(0deg);
+    /* カウントは回転しない */
 }
 
 .white .count {
-    transform: rotate(180deg); /* 後手は元に戻す */
+    transform: rotate(180deg);
+    /* 後手は元に戻す */
 }
 
 /* ===== ボタン ===== */
@@ -315,8 +319,15 @@ body {
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
 }
 
 /* ===== モーダル ===== */
@@ -359,4 +370,56 @@ body {
 /* ===== ユーティリティ ===== */
 .hidden {
     display: none !important;
+}
+
+/* ===== レスポンシブ対応 ===== */
+@media screen and (max-width: 600px) {
+    :root {
+        --cell-size: 38px;
+    }
+
+    .app {
+        padding: 5px;
+        gap: 8px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .piece {
+        font-size: 18px;
+    }
+
+    .hand-piece {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+
+    .controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    :root {
+        --cell-size: 32px;
+    }
+
+    .piece {
+        font-size: 16px;
+    }
+
+    .hand-piece {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
 }
